@@ -1,0 +1,17 @@
+﻿@page "/organisers/view/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>View</h3>
+
+<FormComponent org="org" Disabled="true" />
+
+@code {
+    [Parameter] public int id { get; set; }
+    Organiser? org = new Organiser();
+    protected async override Task OnParametersSetAsync()
+    {
+        org = await
+        _client.GetFromJsonAsync<Organiser>($"{Endpoints.OrganisersEndpoint}/{id}");
+    }
+}

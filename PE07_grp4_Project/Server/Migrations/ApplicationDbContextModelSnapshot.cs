@@ -396,7 +396,7 @@ namespace PE07_grp4_Project.Server.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "14db0a42-03ae-4ec7-aa53-1d6e7a2c9b85",
+                            ConcurrencyStamp = "edc34bc5-b277-4952-b390-9b8fee27b838",
                             Email = "admin@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -404,9 +404,9 @@ namespace PE07_grp4_Project.Server.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENbpXw8e7z6cvBxPlXdF5wfCZH0dlUSuR1NcMcy73ei3xJ1Jg5Q9KMttkCMtAoEC+A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEWSXxyI8Z3ZrUs2O2tGUgGLPQIG5ZntKYcqxu+elx7ym5nm1fzaZeosYlmfGZleuA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ec265f68-7f28-4e16-9efc-971e4f6e3820",
+                            SecurityStamp = "cd883f5b-5aa8-41e4-a0ae-c217032f08be",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -429,20 +429,25 @@ namespace PE07_grp4_Project.Server.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("OrganiserId")
+                    b.Property<int?>("OrganiserId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("eventDateTime")
+                    b.Property<DateTime?>("eventDateTime")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("eventLocation")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("eventName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -472,10 +477,13 @@ namespace PE07_grp4_Project.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("organiserContact")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("organiserName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -486,8 +494,8 @@ namespace PE07_grp4_Project.Server.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 2, 4, 13, 47, 16, 320, DateTimeKind.Local).AddTicks(2352),
-                            DateUpdated = new DateTime(2024, 2, 4, 13, 47, 16, 320, DateTimeKind.Local).AddTicks(2381),
+                            DateCreated = new DateTime(2024, 2, 4, 19, 29, 6, 512, DateTimeKind.Local).AddTicks(6797),
+                            DateUpdated = new DateTime(2024, 2, 4, 19, 29, 6, 512, DateTimeKind.Local).AddTicks(6823),
                             UpdatedBy = "System",
                             organiserContact = "12345678",
                             organiserName = "Test Organiser"

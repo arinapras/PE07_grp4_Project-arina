@@ -1,0 +1,37 @@
+﻿<EditForm Model="@org" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Organiser Name: </label>
+            <div>
+                <InputText @bind-Value="@org.organiserName" class="form-control" />
+                <ValidationMessage For="@(() => org.organiserName)" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Organiser Contact: </label>
+            <div>
+                <InputText @bind-Value="@org.organiserContact" class="form-control" />
+                <ValidationMessage For="@(() => org.organiserContact)" />
+            </div>
+        </div>
+    </fieldset>
+
+    @if (!Disabled)
+    {
+        <button type="submit" class="btn btn-success btn-block">
+            @ButtonText
+        </button>
+    }
+
+    <BackToList Target="organisers" />
+</EditForm>
+
+@code {
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public Organiser? org { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}
