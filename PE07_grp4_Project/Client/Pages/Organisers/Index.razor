@@ -1,0 +1,74 @@
+﻿@page "/organisers/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+<h3 class="card-title">Organisers</h3>
+<br />
+
+<a href="/organisers/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Organiser
+</a>
+<br />
+<br />
+
+@if (Organisers == null)
+{
+    <div class="alert alert-info">Loading Organisers...</div>
+}
+else
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var organiser in Organisers)
+            {
+                <tr>
+                    <td>@organiser.organiserName</td>
+                    <td>@organiser.organiserContact</td>
+                    <td>
+                        <a href="/organisers/view/@organiser.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/organisers/edit/@organiser.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(organiser.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Organiser>? Organisers;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Organisers = await _client.GetFromJsonAsync<List<Organiser>>($"{Endpoints.OrganisersEndpoint}");
+    }
+
+    async Task Delete(int organiserId)
+    {
+        if (Organisers != null)
+        {
+            var organiser = Organisers.First(q => q.Id == organiserId);
+            var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {organiser.organiserName}?");
+            if (confirm)
+            {
+                await _client.DeleteAsync($"{Endpoints.OrganisersEndpoint}/{organiserId}");
+                await OnInitializedAsync();
+            }
+        }
+    }
+}

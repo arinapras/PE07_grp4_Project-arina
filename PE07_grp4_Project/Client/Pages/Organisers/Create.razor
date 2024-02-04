@@ -1,0 +1,45 @@
+﻿@page "/organisers/create"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Vehicles</h3>
+<hr />
+<br />
+
+<EditForm Model="@org" OnValidSubmit="CreateOrganiser">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <label>Organiser Name: </label>
+        <div>
+            <InputText @bind-Value="@org.organiserName" class="form-control" />
+            <ValidationMessage For="@(() => org.organiserName)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Organiser Contact: </label>
+        <div>
+            <InputText @bind-Value="@org.organiserContact" class="form-control" />
+            <ValidationMessage For="@(() => org.organiserContact)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-block">
+        Create Organiser
+    </button>
+</EditForm>
+
+@code {
+    Organiser org = new Organiser();
+
+    protected async override Task OnInitializedAsync()
+    {
+
+    }
+
+    private async Task CreateOrganiser()
+    {
+        await _client.PostAsJsonAsync(Endpoints.OrganisersEndpoint, org);
+        _navManager.NavigateTo("/organisers/");
+    }
+}
